@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Surprise Gift 🎁</title>
+    <link rel="stylesheet" href="./styleV2.css" />
+  </head>
+  <body>
+    <div class="gift" role="region" aria-label="Gift card">
+      <div class="left">
+        <div class="ribbon">A little gift</div>
+
+        <div class="photo-frame" id="photoFrame">
+          <!-- replace the src below with your own file or use the Choose Photo button -->
+          <img
+            id="photo"
+            src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=800&auto=format&fit=crop&crop=faces"
+            alt="Gift photo"
+          />
+        </div>
+
+        <div class="file-input" aria-hidden="false">
+          <label for="file" class="btn" title="Choose a photo"
+            >Choose photo</label
+          >
+          <input id="file" type="file" accept="image/*" style="display: none" />
+          <button
+            id="reset"
+            class="btn"
+            style="
+              background: #777;
+              color: #fff;
+              border-radius: 10px;
+              padding: 8px 12px;
+            "
+          >
+            Reset
+          </button>
+        </div>
+
+        <div class="small">
+          Tip: you can drag a photo onto the Choose photo button (depends on
+          your browser).
+        </div>
+      </div>
+
+      <div class="right">
+        <div>
+          <p class="to">To: <strong id="toName">Someone special</strong></p>
+          <h1 class="title">A little something just for you</h1>
+
+          <p class="message" id="message">
+            Wishing you moments of joy and a heart full of happy memories. Thank
+            you for being wonderful — enjoy this small token of appreciation.
+          </p>
+
+          <p class="signature">
+            — With love, <span id="fromName">Your Friend</span>
+          </p>
+        </div>
+
+        <div>
+          <div class="controls">
+            <button id="editText" class="btn" aria-pressed="false">
+              <a href="./flower.html">More..</a>
+            </button>
+            <button id="print" class="btn" style="background: #e4e5eb">
+              Print / Save PDF
+            </button>
+          </div>
+          <footer>
+            Made with ♥ — replace the photo or text and save/print your card.
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const fileInput = document.getElementById("file");
+      const photo = document.getElementById("photo");
+      const resetBtn = document.getElementById("reset");
+      const editBtn = document.getElementById("editText");
+      const printBtn = document.getElementById("print");
+
+      // Choose photo action
+      document
+        .querySelector('label[for="file"]')
+        .addEventListener("click", (e) => {
+          fileInput.click();
+        });
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => (photo.src = ev.target.result);
+        reader.readAsDataURL(file);
+      });
+
+      // Reset to placeholder image
+      resetBtn.addEventListener("click", () => {
+        photo.src =
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=800&auto=format&fit=crop&crop=faces";
+        fileInput.value = "";
+      });
+
+      // Edit message inline
+      editBtn.addEventListener("click", () => {
+        const newMsg = prompt("Edit message:", msg.textContent);
+        if (newMsg !== null) msg.textContent = newMsg;
+
+        const newTo = prompt("To (leave blank to keep):", toName.textContent);
+        if (newTo !== null && newTo.trim() !== "") toName.textContent = newTo;
+
+        const newFrom = prompt(
+          "From (leave blank to keep):",
+          fromName.textContent
+        );
+        if (newFrom !== null && newFrom.trim() !== "")
+          fromName.textContent = newFrom;
+      });
+
+      // Print (user can Save as PDF from print dialog)
+      printBtn.addEventListener("click", () => window.print());
+
+      // Allow dropping an image directly on the photo frame
+      const frame = document.getElementById("photoFrame");
+      frame.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        frame.style.opacity = 0.9;
+      });
+      frame.addEventListener("dragleave", (e) => {
+        frame.style.opacity = 1;
+      });
+      frame.addEventListener("drop", (e) => {
+        e.preventDefault();
+        frame.style.opacity = 1;
+        const f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f && f.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (ev) => (photo.src = ev.target.result);
+          reader.readAsDataURL(f);
+        }
+      });
+    </script>
+  </body>
+</html>

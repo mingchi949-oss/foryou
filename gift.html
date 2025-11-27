@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Surprise Gift 🎁</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="wrap" role="main">
+      <h1>Ehh BaBe I want Surprise You 🎁</h1>
+      <p class="lead">
+        Click the gift to open it — surprise inside. You can edit the message
+        below.
+      </p>
+
+      <div class="stage" aria-hidden="false">
+        <canvas id="confetti"></canvas>
+
+        <div
+          class="box"
+          id="giftBox"
+          aria-label="Gift box"
+          tabindex="0"
+          role="button"
+        >
+          <div class="lid" id="lid"></div>
+          <div class="ribbon-vert"></div>
+          <div class="ribbon-hor"></div>
+          <div class="bow" aria-hidden="true">
+            <div class="loop left"></div>
+            <div class="loop right"></div>
+            <div class="knot"></div>
+          </div>
+          <div class="shine" style="left: 10%; top: 12%"></div>
+          <div
+            class="shine"
+            style="left: 75%; top: 24%; width: 7px; height: 7px; opacity: 0.6"
+          ></div>
+        </div>
+
+        <div class="gift-message" id="messagePanel" aria-live="polite">
+          <div class="message-title" id="msgTitle">Love You BaBe</div>
+          <div class="message-body" id="msgBody">
+            Wishing you a wonderful day — enjoy this small surprise made just
+            for you! ❤️<a class="ming" href="./phto.html">More...</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls" aria-hidden="false">
+        <button id="openBtn">Open it my sweet hreat ❤️ </button>
+        <div>
+    </div>
+    <script>
+        /* Interaction: open/close lid + show confetti */
+      const box = document.getElementById("giftBox");
+      const openBtn = document.getElementById("openBtn");
+      const customizeBtn = document.getElementById("customizeBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const confettiCanvas = document.getElementById("confetti");
+      const messageTitle = document.getElementById("msgTitle");
+      const messageBody = document.getElementById("msgBody");
+
+      let opened = false;
+
+      /* Toggle on click / keyboard */
+      box.addEventListener("click", toggle);
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") toggle();
+      });
+
+      openBtn.addEventListener("click", toggle);
+
+      /* Customize message */
+      customizeBtn.addEventListener("click", () => {
+        const title =
+          prompt("Title for the gift (short):", messageTitle.textContent) || "";
+        const body = prompt("Message body:", messageBody.textContent) || "";
+        if (title.trim()) messageTitle.textContent = title.trim();
+        if (body.trim()) messageBody.textContent = body.trim();
+      });
+
+      /* Download canvas snapshot */
+      downloadBtn.addEventListener("click", () => {
+        html2canvas(document.body, {
+          useCORS: true,
+          backgroundColor: null,
+        }).then((canvas) => {
+          const link = document.createElement("a");
+          link.download = "gift-snapshot.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      });
+
+      /* simple confetti implementation */
+      confettiCanvas.width = confettiCanvas.clientWidth;
+      confettiCanvas.height = confettiCanvas.clientHeight;
+      const ctx = confettiCanvas.getContext("2d");
+      let confettiParticles = [];
+
+      function spawnConfetti() {
+        confettiParticles = [];
+        const count = 80;
+        for (let i = 0; i < count; i++) {
+          confettiParticles.push({
+            x: Math.random() * confettiCanvas.width,
+            y: -Math.random() * confettiCanvas.height * 0.6,
+            r: 6 + Math.random() * 8,
+            vx: -2 + Math.random() * 4,
+            vy: 2 + Math.random() * 5,
+            rot: Math.random() * 360,
+            vr: -6 + Math.random() * 12,
+            col: ["#ff6b6b", "#ffd166", "#5eead4", "#60a5fa", "#f472b6"][
+              Math.floor(Math.random() * 5)
+            ],
+          });
+        }
+      }
+
+      function updateConfetti() {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        for (let p of confettiParticles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.col;
+          ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6);
+          ctx.restore();
+        }
+        confettiParticles = confettiParticles.filter(
+          (p) => p.y < confettiCanvas.height + 50
+        );
+        if (confettiParticles.length) requestAnimationFrame(updateConfetti);
+      }
+
+      /* toggle open/close */
+      function toggle() {
+        opened = !opened;
+        if (opened) {
+          box.classList.add("open");
+          spawnConfetti();
+          updateConfetti();
+          // subtle bounce
+          box.animate(
+            [
+              { transform: "translate(-50%,-10%) scale(1)" },
+              { transform: "translate(-50%,-12%) scale(1.02)" },
+              { transform: "translate(-50%,-10%) scale(1)" },
+            ],
+            { duration: 700, easing: "cubic-bezier(.2,.9,.2,1)" }
+          );
+        } else {
+          box.classList.remove("open");
+        }
+      }
+
+      /* responsive redraw for confetti canvas */
+      window.addEventListener("resize", () => {
+        confettiCanvas.width = confettiCanvas.clientWidth;
+        confettiCanvas.height = confettiCanvas.clientHeight;
+      });
+
+      /* Accessibility: keyboard focus style */
+      box.addEventListener(
+        "focus",
+        () => (box.style.outline = "3px solid rgba(255,107,107,0.15)")
+      );
+      box.addEventListener("blur", () => (box.style.outline = "none"));
+
+      /* Optional: include html2canvas inline if CORS isn't a concern.
+   We'll load a small fallback script dynamically to allow download snapshot.
+*/
+      (function loadHtml2Canvas() {
+        if (window.html2canvas) return;
+        const s = document.createElement("script");
+        s.src =
+          "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+        s.crossOrigin = "anonymous";
+        s.onload = () => console.log("html2canvas loaded");
+        s.onerror = () =>
+          console.log(
+            "Could not load html2canvas; download may not work offline"
+          );
+        document.head.appendChild(s);
+      })();
+ 
+    </script>
+   </body>
+</html>
