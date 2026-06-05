@@ -1,262 +1,82 @@
-:root {
-  --bg: #f899e3;
-  --card: #ee7fe8;
-  --accent: #ff6b6b;
-  --accent2: #ffd166;
-  --text: #e6eef8;
-}
-html,
 body {
-  height: 100%;
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
-    Arial;
-}
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(
-      1200px 800px at 10% 10%,
-      #07203a 0%,
-      transparent 18%
-    ),
-    linear-gradient(180deg, #071028 0%, #0b1220 100%);
-  color: var(--text);
-  padding: 24px;
-}
-.ming {
-  color: #e6eef8;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fce4ec; /* Light pink background */
+    font-family: 'Georgia', serif;
+    overflow: hidden;
 }
 
-.wrap {
-  width: 100%;
-  max-width: 760px;
-  text-align: center;
+.container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
 }
 
-h1 {
-  margin: 0 0 12px;
-  font-size: 28px;
-  letter-spacing: -0.6px;
-}
-p.lead {
-  margin: 0 0 24px;
-  opacity: 0.85;
+.hidden {
+    display: none !important;
 }
 
-/* gift area */
-.stage {
-  position: relative;
-  width: 320px;
-  height: 300px;
-  margin: 0 auto 18px;
-  perspective: 1000px;
+.question {
+    color: #880e4f;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
 }
 
-/* box base */
-.box {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -10%);
-  width: 220px;
-  height: 170px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #1b2430, #0e1620);
-  box-shadow: 0 20px 40px rgba(2, 6, 12, 0.6),
-    inset 0 2px 8px rgba(255, 255, 255, 0.03);
-  overflow: visible;
+.btn-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    min-height: 150px; /* Gives room for the growing button */
 }
 
-/* ribbon vertical */
-.ribbon-vert {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: 28px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-}
-
-/* lid (top) */
-.lid {
-  position: absolute;
-  left: 50%;
-  top: -34px;
-  transform: translateX(-50%) rotateX(0deg);
-  transform-origin: 50% 100%;
-  width: 260px;
-  height: 52px;
-  background: linear-gradient(180deg, #2b394a, #1b2430);
-  border-radius: 14px;
-  box-shadow: 0 14px 30px rgba(2, 6, 12, 0.6);
-  transition: transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
-}
-
-/* ribbon horizontal */
-.ribbon-hor {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 30px;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-.ribbon-hor::before {
-  content: "";
-  width: 80%;
-  height: 24px;
-  background: linear-gradient(90deg, var(--accent2), var(--accent));
-  border-radius: 6px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
-}
-
-/* bow */
-.bow {
-  position: absolute;
-  left: 50%;
-  top: -18px;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 48px;
-  pointer-events: none;
-}
-.bow .loop {
-  position: absolute;
-  width: 42px;
-  height: 28px;
-  border-radius: 20px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transform-origin: center;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
-}
-.bow .left {
-  left: 6px;
-  transform: rotate(-18deg);
-}
-.bow .right {
-  right: 6px;
-  transform: rotate(18deg);
-}
-.bow .knot {
-  position: absolute;
-  left: 50%;
-  top: 10px;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 22px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #f56, #ffb76b);
-}
-
-/* open state */
-.box.open .lid {
-  transform: translateX(-50%) rotateX(-68deg) translateY(-6px);
-}
-
-/* sparkle / shining */
-.shine {
-  position: absolute;
-  left: 14%;
-  top: 8%;
-  width: 10px;
-  height: 10px;
-  background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.2));
-  border-radius: 3px;
-  transform: rotate(25deg);
-  opacity: 0.9;
-  filter: blur(0.6px);
-}
-
-/* reveal content panel */
-.gift-message {
-  margin-top: 14px;
-  min-height: 68px;
-  border-radius: 12px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.01)
-  );
-  padding: 14px 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 420ms ease, transform 420ms ease;
-}
-.box.open + .gift-message {
-  opacity: 1;
-  transform: none;
-}
-
-.message-title {
-  font-weight: 700;
-  margin: 0 0 6px;
-  font-size: 18px;
-}
-.message-body {
-  margin: 0;
-  font-size: 15px;
-  opacity: 0.92;
-  line-height: 1.4;
-}
-
-/* buttons */
-.controls {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 16px;
-}
 button {
-  background: linear-gradient(180deg, #111827, #0b1220);
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(2, 6, 12, 0.6);
-}
-button.secondary {
-  opacity: 0.9;
-  font-weight: 600;
-}
-button:active {
-  transform: translateY(1px);
+    padding: 15px 35px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, font-size 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* confetti canvas */
-canvas#confetti {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+#yes-btn {
+    background-color: #4caf50;
+    color: white;
+    z-index: 10; /* Ensures it stays on top as it grows */
 }
 
-/* small responsive */
-@media (max-width: 420px) {
-  .stage {
-    width: 260px;
-    height: 240px;
-  }
-  .box {
-    width: 190px;
-    height: 150px;
-  }
-  .lid {
-    width: 230px;
-    height: 46px;
-    top: -30px;
-  }
+#no-btn {
+    background-color: #f44336;
+    color: white;
+    transition: transform 0.2s ease; /* Remove top/left from transition for instant jumping */
+}
+
+.gif-container img {
+    max-width: 200px;
+    height: auto;
+}
+
+/* Success Screen Specific Styles */
+.success-title {
+    color: #c2185b;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.success-subtitle {
+    color: #e91e63;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
 }
