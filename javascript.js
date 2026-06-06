@@ -29,6 +29,12 @@ let phraseIndex = 0;
 let yesButtonScale = 1.0;
 
 function handleNoInteraction() {
+    // Move the No button randomly to make it hard to click
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth) - (window.innerWidth / 2 - noBtn.offsetLeft);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight) - (window.innerHeight / 2 - noBtn.offsetTop);
+    
+    noBtn.style.transform = `translate(${x / 2}px, ${y / 2}px)`;
+
     // 2. Change the text and image
     if (phraseIndex < noPhrases.length) {
         noBtn.innerText = noPhrases[phraseIndex];

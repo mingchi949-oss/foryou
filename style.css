@@ -5,12 +5,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fce4ec; /* Light pink background */
-    font-family: 'Georgia', serif;
+    background: radial-gradient(circle, #fff0f6 0%, #fcc2d7 100%);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     overflow: hidden;
 }
 
 .container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -25,10 +31,11 @@ body {
 }
 
 .question {
-    color: #880e4f;
+    color: #d6336c;
     font-size: 3rem;
     margin-bottom: 30px;
-    letter-spacing: 2px;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
 }
 
 .btn-container {
@@ -41,31 +48,42 @@ body {
 }
 
 button {
-    padding: 15px 35px;
+    padding: 15px 40px;
     font-size: 1.5rem;
     font-weight: bold;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.2s ease, font-size 0.2s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+button:active {
+    transform: scale(0.95);
 }
 
 #yes-btn {
-    background-color: #4caf50;
+    background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
     color: white;
-    z-index: 10; /* Ensures it stays on top as it grows */
+    z-index: 10;
 }
 
 #no-btn {
-    background-color: #f44336;
+    background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%);
     color: white;
-    transition: transform 0.2s ease; /* Remove top/left from transition for instant jumping */
+    position: relative;
 }
 
 .gif-container img {
-    max-width: 200px;
+    max-width: 220px;
     height: auto;
+    border-radius: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 /* Success Screen Specific Styles */
