@@ -29,12 +29,6 @@ let phraseIndex = 0;
 let yesButtonScale = 1.0;
 
 function handleNoInteraction() {
-    // Move the No button randomly to make it hard to click
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth) - (window.innerWidth / 2 - noBtn.offsetLeft);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight) - (window.innerHeight / 2 - noBtn.offsetTop);
-    
-    noBtn.style.transform = `translate(${x / 2}px, ${y / 2}px)`;
-
     // 2. Change the text and image
     if (phraseIndex < noPhrases.length) {
         noBtn.innerText = noPhrases[phraseIndex];
@@ -51,9 +45,7 @@ function handleNoInteraction() {
     yesBtn.style.transform = `scale(${yesButtonScale})`;
 }
 
-// Trigger logic on both click and mouse hover for maximum trap efficiency
-// Always move the button so it never "joins" the Yes button area
-noBtn.addEventListener('mouseenter', handleNoInteraction);
+// Guilt-trip logic triggers on click
 noBtn.addEventListener('click', handleNoInteraction);
 
 // When they finally click YES
